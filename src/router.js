@@ -4,13 +4,13 @@ import VueRouter from 'vue-router'
 const routes = [
   { path: '/', redirect: '/1' },
   { path: '/1', component: TrafficLight, props: {
-    seconds: 4,
+    seconds: 10,
   }},
   { path: '/2', component: TrafficLight, props: {
-    seconds: 4,
+    seconds: 3,
   }},
   { path: '/3', component: TrafficLight, props: {
-    seconds: 4,
+    seconds: 15,
   } },
 ];
 
