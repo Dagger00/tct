@@ -1,19 +1,17 @@
 <template>
-    <div>
-        <router-view>
-        </router-view>
-    </div>
+  <div>
+    <router-view>
+    </router-view>
+  </div>
 </template>
 
 <script>
-  export default {
-
-  }
+  export default {}
 </script>
 
 <style scoped>
-    div {
-        display: flex;
-        justify-content: center;
-    }
+  div {
+    display: flex;
+    justify-content: center;
+  }
 </style>
