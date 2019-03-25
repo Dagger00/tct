@@ -57,7 +57,7 @@
     methods: {
       tick() {
         ++this.timerSeconds;
-        if (this.seconds - this.timerSeconds === 3) {
+        if (this.seconds - this.timerSeconds <= 3) {
           this.setBlinking(true);
         }
         if (this.seconds === this.timerSeconds) {
