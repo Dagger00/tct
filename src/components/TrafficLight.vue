@@ -8,7 +8,6 @@
       :blinking="item.blinking"
       :key="item.color"
     >
-
     </light>
   </div>
 </template>
@@ -131,8 +130,7 @@
           }
         }
       }
-    }
-    ,
+    },
     created() {
       this.$options.interval = setInterval(this.tick, 1000);
       switch (this.$route.path) {
@@ -146,8 +144,7 @@
           this.activateLight(3);
           break;
       }
-    }
-    ,
+    },
     beforeDestroy() {
       clearInterval(this.$options.interval)
     }
