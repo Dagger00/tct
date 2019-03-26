@@ -58,7 +58,7 @@
     opacity: 0.2;
   }
 
-  div:last-child {
+  .light:last-child {
     margin-bottom: 25px;
   }
 

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="lights">
     <light
       v-for="item in lights"
       :key="item.color"
@@ -81,15 +81,21 @@
       }
     },
     created() {
-      this.$options.interval = setInterval(this.tick, 1000);
+      this.$options.interval = setTimeout(this.tick, 1000);
 
       const {path} = this.$route;
       const routeIndex = Number(path[path.length - 1]);
 
       switch (routeIndex) {
-        case 1: this.makeTransition(this.transitions.red, 1); break;
-        case 2: this.makeTransition(this.transitions.yellowAfterRed, 2); break;
-        case 3: this.makeTransition(this.transitions.green, 3); break;
+        case 1:
+          this.makeTransition(this.transitions.red, 1);
+          break;
+        case 2:
+          this.makeTransition(this.transitions.yellowAfterRed, 2);
+          break;
+        case 3:
+          this.makeTransition(this.transitions.green, 3);
+          break;
       }
 
       if (this.seconds - this.timerSeconds <= 3) {
@@ -97,11 +103,12 @@
       }
     },
     beforeDestroy() {
-      clearInterval(this.$options.interval);
+      clearTimeout(this.$options.timeout);
     },
     methods: {
       tick() {
         ++this.timerSeconds;
+        this.$options.timeout = setTimeout(this.tick, 1000);
       },
       makeTransition(nextState, nextIndex) {
         this.updateState = nextState;
@@ -124,26 +131,19 @@
         return Number(path[path.length - 1]);
       },
       activateLight(index) {
-        for (let i = 0; i < this.lights.length; ++i) {
-          if (i === index - 1) {
-            this.$set(this.lights, i, {
-              ...this.lights[i],
-              active: true,
-            });
-          } else {
-            this.$set(this.lights, i, {
-              ...this.lights[i],
-              active: false,
-            });
-          }
-        }
+        this.lights.forEach((item, i) => {
+          this.$set(this.lights, i, {
+            ...this.lights[i],
+            active: i === index - 1,
+          });
+        });
       }
     }
   };
 </script>
 
 <style scoped>
-    div {
+    .lights {
         display: flex;
         flex-direction: column;
         align-items: center;
