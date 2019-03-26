@@ -12,7 +12,7 @@
 </template>
 
 <script>
-  import Light from './Light.vue'
+  import Light from './Light.vue';
 
   export default {
     components: {
@@ -42,19 +42,19 @@
           },
           {
             active: false,
-            color: '#76FF03',
+            color: 'green',
             blinking: false,
           },
         ],
-      }
+      };
     },
     computed: {
-      currentSeconds: function () {
+      currentSeconds() {
         return this.seconds - this.timerSeconds;
       },
     },
     watch: {
-      timerSeconds: function () {
+      timerSeconds() {
         if (this.seconds - this.timerSeconds <= 3) {
           this.setBlinking(true);
         }
@@ -80,7 +80,7 @@
       }
     },
     beforeDestroy() {
-      clearInterval(this.$options.interval)
+      clearInterval(this.$options.interval);
     },
     methods: {
       tick() {
@@ -156,7 +156,7 @@
         }
       }
     }
-  }
+  };
 </script>
 
 <style scoped>

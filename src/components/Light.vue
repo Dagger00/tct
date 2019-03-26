@@ -1,7 +1,7 @@
 <template>
   <div
-    :style="newStyleObject"
-    :class="{ blink_me: blinking }"
+    class="light"
+    v-bind:class="classObject"
   >
     {{ active ? currentSeconds : null }}
   </div>
@@ -30,30 +30,27 @@
     data() {
       return {
         styleObject: {
-          'background-color': this.color,
-          'width': '80px',
-          'height': '80px',
-          'border-radius': '50%',
         }
-      }
+      };
     },
     computed: {
-      newStyleObject() {
+      classObject() {
         return {
-          ...this.styleObject,
-          opacity: this.active ? '1' : '0.4',
-          'box-shadow': this.active ? '0 0 3em ' + this.color : 'none',
-        }
+          active: this.active,
+          blinking: this.blinking,
+          [this.color]: true,
+          disabled: !this.active,
+        };
       },
       currentSeconds() {
         return this.seconds;
       },
     },
-  }
+  };
 </script>
 
 <style scoped>
-  div {
+  .light {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -61,13 +58,40 @@
     margin: 25px 13px 0;
     font-weight: 700;
     user-select: none;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    opacity: 0.4;
   }
 
   div:last-child {
     margin-bottom: 25px;
   }
 
-  .blink_me {
+  .red {
+    background-color: red;
+    box-shadow: 0 0 3em red;
+  }
+
+  .yellow {
+    background-color: yellow;
+    box-shadow: 0 0 3em yellow;
+  }
+
+  .green {
+    background-color: #76FF03;
+    box-shadow: 0 0 3em #76FF03;
+  }
+
+  .active {
+    opacity: 1;
+  }
+
+  .disabled {
+    box-shadow: none;
+  }
+
+  .blinking {
     animation: blinker 0.95s linear infinite;
   }
 

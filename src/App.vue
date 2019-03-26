@@ -1,11 +1,14 @@
 <template>
-  <div>
+  <div class="container">
     <router-view />
   </div>
 </template>
 
-<style scoped>
-  div {
+<style>
+  body {
+    background-color: #FDF5E6;
+  }
+  .container {
     display: flex;
     justify-content: center;
   }

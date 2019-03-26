@@ -1,5 +1,5 @@
-import TrafficLight from './components/TrafficLight.vue'
-import VueRouter from 'vue-router'
+import TrafficLight from './components/TrafficLight.vue';
+import VueRouter from 'vue-router';
 
 const routes = [
   { path: '/', redirect: '/1' },
