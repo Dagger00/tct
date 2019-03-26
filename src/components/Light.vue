@@ -61,7 +61,7 @@
     width: 80px;
     height: 80px;
     border-radius: 50%;
-    opacity: 0.4;
+    opacity: 0.2;
   }
 
   div:last-child {
