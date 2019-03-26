@@ -34,7 +34,6 @@
           'width': '80px',
           'height': '80px',
           'border-radius': '50%',
-          'box-shadow': '0 0 3em ' + this.color,
         }
       }
     },

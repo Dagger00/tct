@@ -5,7 +5,6 @@ import {router} from './router'
 
 Vue.use(VueRouter);
 
-
 new Vue({
   router,
   el: '#app',

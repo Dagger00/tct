@@ -57,9 +57,6 @@
     methods: {
       tick() {
         ++this.timerSeconds;
-        if (this.seconds - this.timerSeconds <= 3) {
-          this.setBlinking(true);
-        }
         if (this.seconds === this.timerSeconds) {
           this.setBlinking(false);
           this.changeRoute();
@@ -133,6 +130,7 @@
     },
     created() {
       this.$options.interval = setInterval(this.tick, 1000);
+
       switch (this.$route.path) {
         case '/1':
           this.activateLight(1);
@@ -143,6 +141,17 @@
         case '/3':
           this.activateLight(3);
           break;
+      }
+
+      if (this.seconds - this.timerSeconds <= 3) {
+        this.setBlinking(true);
+      }
+    },
+    watch: {
+      timerSeconds: function () {
+        if (this.seconds - this.timerSeconds <= 3) {
+          this.setBlinking(true);
+        }
       }
     },
     beforeDestroy() {
