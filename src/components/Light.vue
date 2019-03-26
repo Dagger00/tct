@@ -27,12 +27,6 @@
         'default': false,
       },
     },
-    data() {
-      return {
-        styleObject: {
-        }
-      };
-    },
     computed: {
       classObject() {
         return {

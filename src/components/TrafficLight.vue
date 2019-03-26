@@ -12,11 +12,11 @@
 </template>
 
 <script>
-  import Light from './Light.vue';
+  import light from './Light.vue';
 
   export default {
     components: {
-      Light
+      light
     },
     props: {
       seconds: {
@@ -27,8 +27,6 @@
     data: function () {
       return {
         timerSeconds: 0,
-        currentRoute: this.$route,
-        previousRoute: null,
         lights: [
           {
             active: false,
@@ -46,6 +44,25 @@
             blinking: false,
           },
         ],
+        transitions: {
+          red() {
+            const {yellowAfterRed} = this.transitions;
+            this.makeTransition(yellowAfterRed, 2);
+          },
+          yellowAfterRed() {
+            const {green} = this.transitions;
+            this.makeTransition(green, 3);
+          },
+          yellowAfterGreen() {
+            const {red} = this.transitions;
+            this.makeTransition(red, 1);
+          },
+          green() {
+            const {yellowAfterGreen} = this.transitions;
+            this.makeTransition(yellowAfterGreen, 2);
+          },
+        },
+        updateState() {}
       };
     },
     computed: {
@@ -58,21 +75,21 @@
         if (this.seconds - this.timerSeconds <= 3) {
           this.setBlinking(true);
         }
+        if (this.seconds - this.timerSeconds === 0) {
+          this.updateState();
+        }
       }
     },
     created() {
       this.$options.interval = setInterval(this.tick, 1000);
 
-      switch (this.$route.path) {
-        case '/1':
-          this.activateLight(1);
-          break;
-        case '/2':
-          this.activateLight(2);
-          break;
-        case '/3':
-          this.activateLight(3);
-          break;
+      const {path} = this.$route;
+      const routeIndex = Number(path[path.length - 1]);
+
+      switch (routeIndex) {
+        case 1: this.makeTransition(this.transitions.red, 1); break;
+        case 2: this.makeTransition(this.transitions.yellowAfterRed, 2); break;
+        case 3: this.makeTransition(this.transitions.green, 3); break;
       }
 
       if (this.seconds - this.timerSeconds <= 3) {
@@ -85,10 +102,13 @@
     methods: {
       tick() {
         ++this.timerSeconds;
-        if (this.seconds === this.timerSeconds) {
-          this.setBlinking(false);
-          this.changeRoute();
-        }
+      },
+      makeTransition(nextState, nextIndex) {
+        this.updateState = nextState;
+        this.timerSeconds = 0;
+        this.setBlinking(false);
+        this.$router.push('/' + nextIndex);
+        this.activateLight(nextIndex);
       },
       setBlinking(value) {
         const currentPathIndex = this.defineCurrentRouteIndex() - 1;
@@ -101,44 +121,7 @@
       defineCurrentRouteIndex() {
         const {path} = this.$route;
 
-        if (path === '/1') {
-          return 1;
-        } else if (path === '/2') {
-          return 2;
-        } else {
-          return 3;
-        }
-      },
-      defineNextRouteIndex() {
-        const {path} = this.$route;
-
-        if (path === '/1') {
-          return 2;
-        } else if (path === '/2') {
-          if (this.previousRoute) {
-            if (this.previousRoute.path === '/1') {
-              return 3;
-            } else {
-              return 1;
-            }
-          } else {
-            return 3;
-          }
-        }
-
-        return 2;
-      },
-      changeRoute() {
-        this.timerSeconds = 0;
-
-        const newPrevRoute = this.$route;
-        const newIndex = this.defineNextRouteIndex();
-
-        this.activateLight(newIndex);
-
-        this.$router.push('/' + newIndex);
-        this.previousRoute = newPrevRoute;
-        this.currentRoute = this.$route;
+        return Number(path[path.length - 1]);
       },
       activateLight(index) {
         for (let i = 0; i < this.lights.length; ++i) {
@@ -160,13 +143,13 @@
 </script>
 
 <style scoped>
-  div {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    border-radius: 10px;
-    background-color: #333;
-    padding: 0 10px;
-    box-sizing: border-box;
-  }
+    div {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        border-radius: 10px;
+        background-color: #333;
+        padding: 0 10px;
+        box-sizing: border-box;
+    }
 </style>
