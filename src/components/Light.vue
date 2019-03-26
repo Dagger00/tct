@@ -1,9 +1,9 @@
 <template>
   <div
     :style="newStyleObject"
-    v-bind:class="{ blink_me: blinking }"
+    :class="{ blink_me: blinking }"
   >
-    {{ active ? currentSeconds : null}}
+    {{ active ? currentSeconds : null }}
   </div>
 </template>
 

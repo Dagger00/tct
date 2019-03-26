@@ -2,13 +2,12 @@
   <div>
     <light
       v-for="item in lights"
+      :key="item.color"
       :active="item.active"
       :color="item.color"
       :seconds="currentSeconds"
       :blinking="item.blinking"
-      :key="item.color"
-    >
-    </light>
+    />
   </div>
 </template>
 
@@ -23,11 +22,6 @@
       seconds: {
         type: Number,
         'default': 3,
-      },
-    },
-    computed: {
-      currentSeconds: function () {
-        return this.seconds - this.timerSeconds;
       },
     },
     data: function () {
@@ -53,6 +47,40 @@
           },
         ],
       }
+    },
+    computed: {
+      currentSeconds: function () {
+        return this.seconds - this.timerSeconds;
+      },
+    },
+    watch: {
+      timerSeconds: function () {
+        if (this.seconds - this.timerSeconds <= 3) {
+          this.setBlinking(true);
+        }
+      }
+    },
+    created() {
+      this.$options.interval = setInterval(this.tick, 1000);
+
+      switch (this.$route.path) {
+        case '/1':
+          this.activateLight(1);
+          break;
+        case '/2':
+          this.activateLight(2);
+          break;
+        case '/3':
+          this.activateLight(3);
+          break;
+      }
+
+      if (this.seconds - this.timerSeconds <= 3) {
+        this.setBlinking(true);
+      }
+    },
+    beforeDestroy() {
+      clearInterval(this.$options.interval)
     },
     methods: {
       tick() {
@@ -127,35 +155,6 @@
           }
         }
       }
-    },
-    created() {
-      this.$options.interval = setInterval(this.tick, 1000);
-
-      switch (this.$route.path) {
-        case '/1':
-          this.activateLight(1);
-          break;
-        case '/2':
-          this.activateLight(2);
-          break;
-        case '/3':
-          this.activateLight(3);
-          break;
-      }
-
-      if (this.seconds - this.timerSeconds <= 3) {
-        this.setBlinking(true);
-      }
-    },
-    watch: {
-      timerSeconds: function () {
-        if (this.seconds - this.timerSeconds <= 3) {
-          this.setBlinking(true);
-        }
-      }
-    },
-    beforeDestroy() {
-      clearInterval(this.$options.interval)
     }
   }
 </script>

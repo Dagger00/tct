@@ -21,6 +21,12 @@ module.exports = {
           'css-loader',
         ]
       },
+      {
+        enforce: 'pre',
+        test: /\.(js|vue)$/,
+        loader: 'eslint-loader',
+        exclude: /node_modules/
+      },
     ]
   },
   devServer: {
