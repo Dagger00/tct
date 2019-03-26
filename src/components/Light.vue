@@ -1,7 +1,7 @@
 <template>
   <div
     class="light"
-    v-bind:class="classObject"
+    :class="classObject"
   >
     {{ active ? currentSeconds : null }}
   </div>
